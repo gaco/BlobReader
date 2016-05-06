@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blobreader</groupId>
 	<artifactId>BlobReader</artifactId>
@@ -7,7 +6,6 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>BlobReader</name>
 	<url>http://maven.apache.org</url>
-
 	<properties>
 		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
 		<jdk.version>1.7</jdk.version>
@@ -20,7 +18,6 @@
 		<xstream.version>1.4.8</xstream.version>
 		<apache-commons-io.version>2.4</apache-commons-io.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -80,11 +77,9 @@
 			<version>${apache-commons-io.version}</version>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<finalName>BlobReader</finalName>
 		<plugins>
-
 			<!-- Set a JDK compiler level -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -95,7 +90,6 @@
 					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
-
 			<!-- Configures the used assembly descriptor -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -107,7 +101,6 @@
 					</descriptors>
 				</configuration>
 			</plugin>
-
 			<!-- Number of VMs in Parallel. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -118,7 +111,6 @@
 					<forkCount>1</forkCount>
 				</configuration>
 			</plugin>
-
 			<!-- Make this jar executable -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -137,9 +129,7 @@
 							<addClasspath>true</addClasspath>
 							<!-- Jar file entry point -->
 							<mainClass>com.blobreader.BlobReader</mainClass>
-						</manifest>
-						Resources will be placed under conf/
-					</archive>
+						</manifest>Resources will be placed under conf/</archive>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
 						<version>2.6</version>
@@ -162,7 +152,12 @@
 					</plugin>
 				</configuration>
 			</plugin>
-
+			<!-- Sonar plugin -->
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.0.1</version>
+			</plugin>
 		</plugins>
 	</build>
 </project>
