@@ -5,39 +5,39 @@
 		<format>zip</format>
 	</formats>
 
-		<includeBaseDirectory>true</includeBaseDirectory>
-		<baseDirectory>dist</baseDirectory>
-		<dependencySets>
-			<dependencySet>
-				<outputDirectory>lib</outputDirectory>
-				<scope>runtime</scope>
-			</dependencySet>
-		</dependencySets>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<baseDirectory>dist</baseDirectory>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
 
-		<fileSets>
-			<!-- Adds startup scripts to the root directory of zip package. The startup 
-				scripts are copied from the src/main/scripts directory. -->
-			<fileSet>
-				<directory>${project.build.scriptSourceDirectory}</directory>
-				<outputDirectory>/</outputDirectory>
-				<!-- <includes> <include>*.cmd</include> </includes> -->
-			</fileSet>
+	<fileSets>
+		<!-- Adds startup scripts to the root directory of zip package. The startup 
+			scripts are copied from the src/main/scripts directory. -->
+		<fileSet>
+			<directory>${project.build.scriptSourceDirectory}</directory>
+			<outputDirectory>/</outputDirectory>
+			<!-- <includes> <include>*.cmd</include> </includes> -->
+		</fileSet>
 
-			<!-- Adds the jar file to the root directory of the zip package. -->
-			<fileSet>
-				<directory>${project.build.directory}</directory>
-				<outputDirectory>/</outputDirectory>
-				<includes>
-					<include>*.jar</include>
-				</includes>
-			</fileSet>
+		<!-- Adds the jar file to the root directory of the zip package. -->
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
 
 
-			<!-- Adds the config files to the config folder of the zip package.. -->
-			<fileSet>
-				<directory>/src/main/resources/</directory>
-				<outputDirectory>configs</outputDirectory>
-				<!-- <includes> <include>*.properties</include> </includes> -->
-			</fileSet>
-		</fileSets>
+		<!-- Adds the config files to the config folder of the zip package.. -->
+		<fileSet>
+			<directory>/src/main/resources/</directory>
+			<outputDirectory>configs</outputDirectory>
+			<!-- <includes> <include>*.properties</include> </includes> -->
+		</fileSet>
+	</fileSets>
 </assembly>

@@ -13,51 +13,58 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 /**
- * Class responsible to connect to the database and extract the blob file from it.
- * For this, two properties file must exists. One that should contains the database connection and 
- * one that should contain the query to be performed to find the desired blob.
+ * Class responsible to connect to the database and extract the blob file from
+ * it. For this, two properties file must exists. One that should contains the
+ * database connection and one that should contain the query to be performed to
+ * find the desired blob.
+ * 
  * @author gabriel
  */
 public class DBUtils {
 
 	private String blobColumn;
 	private String fromWhereClause;
+	private static Logger logger = Logger.getLogger(DBUtils.class.getName());
 
 	/**
-	 * Retrieves the Blob from the configured database (database details as well as the query used to extract the blob
-	 * should be defined in a property file) and
-	 * extracts it to the input chosen directory. 
-	 * @param blobPathToExtract path where the extracted blob should be saved in the filesystem 
+	 * Retrieves the Blob from the configured database (database details as well
+	 * as the query used to extract the blob should be defined in a property
+	 * file) and extracts it to the input chosen directory.
+	 * 
+	 * @param blobPathToExtract
+	 *            path where the extracted blob should be saved in the
+	 *            filesystem
 	 * @return byte array representing the extracted blob.
 	 */
-	public byte[] blobDBExtract(String blobPathToExtract) {
+	public byte[] blobDBExtract() {
 		byte[] blobBytes = null;
 		Blob blob = null;
-		
-		Connection connection = initDBConnection();
 
+		Connection connection = initDBConnection();
 
 		if (connection != null) {
 			try {
 				blob = retrieveBlobFromDatabase(connection);
 				if (blob == null) {
-					System.out.println("SQL Statement ended with no results");
+					logger.info("SQL Statement ended with no results");
 				} else {
 					blobBytes = blob.getBytes(1, (int) blob.length());
 					blob.free();
 				}
 			} catch (SQLException e) {
 				if (blob != null) {
-					System.err.println("Failed to release the Blob from memory.");
+					logger.error("Failed to release the Blob from memory.", e);
 				} else {
-					System.err.println("Failed to execute the Statement. Please, check your query is right.");
+					logger.error("Failed to execute the Statement. Please, make sure your query is right.", e);
 				}
 			} finally {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					System.err.println("Failed to close the Database connection.");
+					logger.error("Failed to close the Database connection.", e);
 				}
 			}
 		}
@@ -65,16 +72,10 @@ public class DBUtils {
 	}
 
 	private Blob retrieveBlobFromDatabase(Connection connection) throws SQLException {
-		try {
-			PreparedStatement statement = queryBuilder(connection);
-			ResultSet result = statement.executeQuery();
-			if (result.next()) {
-				Blob blob = result.getBlob(blobColumn);
-				return blob;
-			}
-		} catch (SQLException e) {
-			throw e;
-
+		PreparedStatement statement = queryBuilder(connection);
+		ResultSet result = statement.executeQuery();
+		if (result.next()) {
+			return result.getBlob(blobColumn);
 		}
 		return null;
 	}
@@ -84,10 +85,11 @@ public class DBUtils {
 		fromWhereClause = null;
 		try {
 
-			FileInputStream fis = null;
+			FileInputStream fis;
 			Properties properties = new Properties();
-			String sqlProperties = getClass().getResource(CONFIG_PATH.getValue() + SQL_STATEMENT_PROPERTIES_FILENAME.getValue()).getPath();
-			System.out.println(sqlProperties);
+			String sqlProperties = getClass()
+					.getResource(CONFIG_PATH.getValue() + SQL_STATEMENT_PROPERTIES_FILENAME.getValue()).getPath();
+			logger.info(sqlProperties);
 			fis = new FileInputStream(sqlProperties);
 			properties.load(fis);
 
@@ -95,12 +97,12 @@ public class DBUtils {
 			fromWhereClause = properties.getProperty("FROM_WHERE_CLAUSE");
 
 		} catch (IOException e) {
-			System.err.println(
-					"Failed to read the query properties file (" + SQL_STATEMENT_PROPERTIES_FILENAME.getValue() + ").");
+			logger.error(
+					"Failed to read the query properties file (" + SQL_STATEMENT_PROPERTIES_FILENAME.getValue() + ").",
+					e);
 		}
 		String selectStatement = "SELECT " + blobColumn + " " + fromWhereClause;
-		PreparedStatement statement = connection.prepareStatement(selectStatement);
-		return statement;
+		return connection.prepareStatement(selectStatement);
 	}
 
 	private Connection initDBConnection() {
@@ -109,8 +111,9 @@ public class DBUtils {
 		Properties properties = new Properties();
 		try {
 
-			String dbConnectionProperties = getClass().getResource(CONFIG_PATH.getValue() + DB_PROPERTIES_FILENAME.getValue()).getPath();
-			System.out.println(dbConnectionProperties);
+			String dbConnectionProperties = getClass()
+					.getResource(CONFIG_PATH.getValue() + DB_PROPERTIES_FILENAME.getValue()).getPath();
+			logger.info(dbConnectionProperties);
 			fis = new FileInputStream(dbConnectionProperties);
 			properties.load(fis);
 
@@ -122,17 +125,15 @@ public class DBUtils {
 			String pass = properties.getProperty("DB_PASSWORD");
 			String url = "jdbc:oracle:thin:@" + host + ":" + port + ":" + sid;
 
-			System.out.println("Testing Oracle Connection...");
+			logger.info("Testing Oracle Connection...");
 			connection = DBFactory.getConnection(url, user, pass);
-			if (connection != null) {
-				System.out.println("Oracle JDBC Connected.");
-			}
+			logger.info("Oracle JDBC Connected.");
 		} catch (ClassNotFoundException e) {
-			System.err.println("Oracle Driver is missing or incorrect.");
+			logger.error("Oracle Driver is missing or incorrect.", e);
 		} catch (IOException e) {
-			System.err.println("Failed to read database properties file (" + DB_PROPERTIES_FILENAME.getValue() + ").");
+			logger.error("Failed to read database properties file (" + DB_PROPERTIES_FILENAME.getValue() + ").", e);
 		} catch (Exception e) {
-			System.err.println("Failed to initiate the Database connection.");
+			logger.error("Failed to initiate the Database connection.", e);
 		}
 		return connection;
 	}

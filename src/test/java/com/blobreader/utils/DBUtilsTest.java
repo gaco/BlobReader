@@ -60,7 +60,7 @@ public class DBUtilsTest extends DBUtils {
 				.thenReturn(mock(Connection.class));
 
 		// When
-		byte[] blobBytes = spy.blobDBExtract(BLOB_PATH_TO_EXTRACT);
+		byte[] blobBytes = spy.blobDBExtract();
 
 		// Then
 //		verify(blobMock, times(1)).getBytes(1, (int) blobMock.length());

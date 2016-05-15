@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blobreader</groupId>
 	<artifactId>BlobReader</artifactId>
@@ -76,6 +77,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>${apache-commons-io.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>BlobReader</finalName>
@@ -129,7 +135,9 @@
 							<addClasspath>true</addClasspath>
 							<!-- Jar file entry point -->
 							<mainClass>com.blobreader.BlobReader</mainClass>
-						</manifest>Resources will be placed under conf/</archive>
+						</manifest>
+						Resources will be placed under conf/
+					</archive>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
 						<version>2.6</version>
