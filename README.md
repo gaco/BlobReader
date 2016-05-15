@@ -1,4 +1,6 @@
 # BlobReader
+[![Build Status](https://travis-ci.org/gaco/BlobReader.svg?branch=master)](https://travis-ci.org/gaco/BlobReader)
+---
 
 ### Description
 
