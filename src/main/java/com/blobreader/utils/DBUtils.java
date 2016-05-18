@@ -1,7 +1,6 @@
 package com.blobreader.utils;
 
 import static com.blobreader.utils.BlobConstants.CONFIG_PATH;
-import static com.blobreader.utils.BlobConstants.DB_PROPERTIES_FILENAME;
 import static com.blobreader.utils.BlobConstants.SQL_STATEMENT_PROPERTIES_FILENAME;
 
 import java.io.FileInputStream;
@@ -107,31 +106,10 @@ public class DBUtils {
 
 	private Connection initDBConnection() {
 		Connection connection = null;
-		FileInputStream fis = null;
-		Properties properties = new Properties();
 		try {
-
-			String dbConnectionProperties = getClass()
-					.getResource(CONFIG_PATH.getValue() + DB_PROPERTIES_FILENAME.getValue()).getPath();
-			logger.info(dbConnectionProperties);
-			fis = new FileInputStream(dbConnectionProperties);
-			properties.load(fis);
-
-			Class.forName(properties.getProperty("DB_DRIVER"));
-			String host = properties.getProperty("DB_HOST");
-			String port = properties.getProperty("DB_PORT");
-			String sid = properties.getProperty("DB_SID");
-			String user = properties.getProperty("DB_USERNAME");
-			String pass = properties.getProperty("DB_PASSWORD");
-			String url = "jdbc:oracle:thin:@" + host + ":" + port + ":" + sid;
-
 			logger.info("Testing Oracle Connection...");
-			connection = DBFactory.getConnection(url, user, pass);
+			connection = DBFactory.getConnection();
 			logger.info("Oracle JDBC Connected.");
-		} catch (ClassNotFoundException e) {
-			logger.error("Oracle Driver is missing or incorrect.", e);
-		} catch (IOException e) {
-			logger.error("Failed to read database properties file (" + DB_PROPERTIES_FILENAME.getValue() + ").", e);
 		} catch (Exception e) {
 			logger.error("Failed to initiate the Database connection.", e);
 		}

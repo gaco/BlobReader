@@ -5,8 +5,6 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.sql.Blob;
@@ -25,9 +23,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ BlobResourceUtils.class, DBUtils.class })
+@PrepareForTest({ BlobResourceUtils.class, DBUtils.class, DriverManager.class, DBFactory.class })
 @PowerMockIgnore("javax.management.*")
-public class DBUtilsTest extends DBUtils {
+public class DBUtilsTest {
 
 	private static final String BLOB_PATH_TO_EXTRACT = "any/path/";
 
@@ -49,12 +47,14 @@ public class DBUtilsTest extends DBUtils {
 		when(blobMock.getBytes(anyLong(), anyInt())).thenReturn(data);
 
 		DBUtils spy = PowerMockito.spy(new DBUtils());
+
 		PowerMockito.doReturn(blobMock)
 				.when(spy, PowerMockito.method(DBUtils.class, "retrieveBlobFromDatabase", Connection.class))
 				.withArguments(Mockito.anyObject());
 
-		PowerMockito.mockStatic(DBFactory.class);
+		// PowerMockito.mockStatic(DBFactory.class);
 		Class.forName("oracle.jdbc.driver.OracleDriver");
+
 		PowerMockito.mockStatic(DriverManager.class);
 		PowerMockito.when(DriverManager.getConnection(anyString(), anyString(), anyString()))
 				.thenReturn(mock(Connection.class));
@@ -63,8 +63,10 @@ public class DBUtilsTest extends DBUtils {
 		byte[] blobBytes = spy.blobDBExtract();
 
 		// Then
-		verify(blobMock, times(1)).getBytes(1, (int) blobMock.length());
-//		assertEquals(data, blobBytes);
+		PowerMockito.verifyStatic();
+
+		assertEquals(data, blobBytes);
 
 	}
+
 }

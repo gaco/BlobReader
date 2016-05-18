@@ -14,14 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.xstream.XStream;
 
 public class BlobReader {
-	
+
 	private static final String OUTPUT_PATH = BlobConstants.OUTPUT_PATH.getValue();
 	private static final Logger logger = Logger.getLogger(BlobReader.class.getName());
-	
-	private BlobReader() {
-		
-	}
 
+	private BlobReader() {
+
+	}
 
 	public static void main(String[] args) {
 		init();
@@ -45,7 +44,7 @@ public class BlobReader {
 			}
 		} catch (ClassNotFoundException e) {
 			logger.error("ClassNotFoundException - Failed to find the class: " + e);
-			logger.error("Missing jar in resouces/jars perhaps?" + e);
+			logger.error("Missing jar in jars directory perhaps?\n" + e);
 		} catch (IOException e) {
 			logger.error(e);
 		}
@@ -62,7 +61,7 @@ public class BlobReader {
 			xs.toXML(entity, new FileOutputStream(OUTPUT_PATH + path.getFileName().toString() + ".xml"));
 			logger.info("XML file has been created: " + path.toAbsolutePath().normalize().toString() + ".xml");
 		} catch (Exception e) {
-			logger.error("Failed to save the Blob as XML.", e );
+			logger.error("Failed to save the Blob as XML.", e);
 		}
 
 	}
@@ -70,7 +69,8 @@ public class BlobReader {
 	private static void toJSON(Path path, Object entity) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileOutputStream(OUTPUT_PATH + path.getFileName().toString() + ".json"), entity);
+			objectMapper.writerWithDefaultPrettyPrinter()
+					.writeValue(new FileOutputStream(OUTPUT_PATH + path.getFileName().toString() + ".json"), entity);
 			logger.info("JSON file has been created: %s%n" + path.toAbsolutePath().normalize().toString() + ".json");
 		} catch (Exception e) {
 			logger.error("Failed to save the Blob as JSON.", e);

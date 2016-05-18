@@ -16,24 +16,17 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 
-import org.apache.commons.logging.impl.Log4JCategoryLog;
-import org.apache.commons.logging.impl.Log4JLogger;
-import org.apache.log4j.Appender;
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
-import org.apache.velocity.runtime.log.Log4JLogSystem;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.hamcrest.generator.HamcrestFactoryWriter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import junit.framework.Assert;
 import oracle.sql.BLOB;
 
 /**
