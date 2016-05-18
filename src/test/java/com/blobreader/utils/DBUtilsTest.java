@@ -63,8 +63,8 @@ public class DBUtilsTest extends DBUtils {
 		byte[] blobBytes = spy.blobDBExtract();
 
 		// Then
-//		verify(blobMock, times(1)).getBytes(1, (int) blobMock.length());
-		assertEquals(data, blobBytes);
+		verify(blobMock, times(1)).getBytes(1, (int) blobMock.length());
+//		assertEquals(data, blobBytes);
 
 	}
 }

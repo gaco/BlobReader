@@ -88,7 +88,7 @@ public class BlobResourceUtils {
 				logger.warn("Blob is Empty.");
 			}
 		} catch (IOException e) {
-			logger.error("Failed to save in the extracted Blob in filesystem.", e);
+			throw new IOException("Failed to save in the extracted Blob in filesystem.", e);
 		}
 		return file;
 	}
