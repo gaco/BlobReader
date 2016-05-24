@@ -110,12 +110,6 @@ public class BlobResourceUtilsTest {
 		
 	}
 	
-//	@Test(expected = IOException.class)
-//	public void errorToReadTheBlobContent() throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
-//		BlobResourceUtils.retrieveBlobFromFilesystem(FILE_NAME, FILE_PATH.toString());
-//		
-//	}
-	
 	@Test
 	public void shouldSaveBlobFileToFilesystem() throws SQLException, IOException {
 		// Given

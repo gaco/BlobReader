@@ -86,8 +86,7 @@ public class DBUtils {
 
 			FileInputStream fis;
 			Properties properties = new Properties();
-			String sqlProperties = getClass()
-					.getResource(CONFIG_PATH.getValue() + SQL_STATEMENT_PROPERTIES_FILENAME.getValue()).getPath();
+			String sqlProperties = CONFIG_PATH.getValue() + SQL_STATEMENT_PROPERTIES_FILENAME.getValue();
 			logger.info(sqlProperties);
 			fis = new FileInputStream(sqlProperties);
 			properties.load(fis);

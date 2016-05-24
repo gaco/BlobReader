@@ -28,9 +28,10 @@ public class DBFactory {
 	}
 
 	private Connection createConnection() throws SQLException {
-		String dbConnectionProperties = getClass()
-				.getResource(CONFIG_PATH.getValue() + DB_PROPERTIES_FILENAME.getValue()).getPath();
-		logger.info(dbConnectionProperties);
+
+		String dbConnectionProperties = CONFIG_PATH.getValue() + DB_PROPERTIES_FILENAME.getValue();
+		logger.debug("dbProperty: " + dbConnectionProperties);
+		logger.info("dbProperty: " + dbConnectionProperties);
 		try {
 			readConnectionProperties(dbConnectionProperties);
 		} catch (ClassNotFoundException e) {
@@ -43,10 +44,9 @@ public class DBFactory {
 	}
 
 	private void readConnectionProperties(String dbConnectionProperties) throws IOException, ClassNotFoundException {
-		FileInputStream fis;
 		Properties properties = new Properties();
 
-		fis = new FileInputStream(dbConnectionProperties);
+		FileInputStream fis = new FileInputStream(dbConnectionProperties);
 		properties.load(fis);
 		Class.forName(properties.getProperty("DB_DRIVER"));
 		this.host = properties.getProperty("DB_HOST");

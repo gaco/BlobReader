@@ -1,3 +1,4 @@
 @echo off
-java -jar BlobReader.jar
+
+java -cp "BlobReader-full.jar;jars/*" com.blobreader.BlobReader
 pause

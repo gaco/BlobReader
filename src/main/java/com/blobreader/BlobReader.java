@@ -44,7 +44,7 @@ public class BlobReader {
 			}
 		} catch (ClassNotFoundException e) {
 			logger.error("ClassNotFoundException - Failed to find the class: " + e);
-			logger.error("Missing jar in jars directory perhaps?\n" + e);
+			logger.error("Missing jar file in jars/ directory perhaps?\n" + e);
 		} catch (IOException e) {
 			logger.error(e);
 		}

@@ -63,7 +63,7 @@ public class BlobResourceUtils {
 	}
 
 	/**
-	 * Saves the blob in the file system. It receives an array of bytes,
+	 * Saves the blob, temporarily,  in the file system. It receives an array of bytes,
 	 * representing the blob file deserialized. It also receives the location
 	 * where it should be saved.
 	 * 
