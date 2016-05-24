@@ -31,7 +31,6 @@ public class DBFactory {
 
 		String dbConnectionProperties = CONFIG_PATH.getValue() + DB_PROPERTIES_FILENAME.getValue();
 		logger.debug("dbProperty: " + dbConnectionProperties);
-		logger.info("dbProperty: " + dbConnectionProperties);
 		try {
 			readConnectionProperties(dbConnectionProperties);
 		} catch (ClassNotFoundException e) {
